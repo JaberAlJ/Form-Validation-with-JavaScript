@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Validation</title>
+    <script>
+        function validateForm() {
+            // Get form values
+            var username = document.forms["registrationForm"]["username"].value;
+            var email = document.forms["registrationForm"]["email"].value;
+            var password = document.forms["registrationForm"]["password"].value;
+            var confirmPassword = document.forms["registrationForm"]["confirmPassword"].value;
+
+            // Get error message elements
+            var usernameError = document.getElementById("usernameError");
+            var emailError = document.getElementById("emailError");
+            var passwordError = document.getElementById("passwordError");
+            var confirmPasswordError = document.getElementById("confirmPasswordError");
+            var successMessage = document.getElementById("successMessage");
+
+            // Reset error messages
+            usernameError.textContent = "";
+            emailError.textContent = "";
+            passwordError.textContent = "";
+            confirmPasswordError.textContent = "";
+            successMessage.textContent = "";
+
+            var isValid = true;
+
+            // Username validation
+            if (username.trim() === "") {   // Check if username is empty
+                usernameError.textContent = "Username is required";
+                isValid = false;
+            }
+
+            // Email validation
+            var emailRegex = /^[^\s@]+@[^\s@]+$/;   // Simple regex for email validation
+            if (email.trim() === "") {   // Check if email is empty
+                emailError.textContent = "Email is required";
+                isValid = false;
+            } else if (!emailRegex.test(email)) {   // Validate email format
+                emailError.textContent = "Invalid email address";
+                isValid = false;
+            }
+
+            // Password validation
+            var minLength = 12;
+            var hasUpperCase = /[A-Z]/; // Check for uppercase letters
+            var hasLowerCase = /[a-z]/; // Check for lowercase letters
+            var hasDigit = /\d/;    // Check for digits
+            var hasSpecialChar = /[!@#$%^&*]/;  // Check for special characters
+            
+            if (password.trim() === "") {   // Check if password is empty
+                passwordError.textContent = "Password is required";
+                isValid = false;
+            } else if (password.length < minLength) {   // Check if password meets minimum length
+                passwordError.textContent = "Password must be at least 12 characters long.";
+                isValid = false;
+            } else if (!hasUpperCase.test(password)) {  // Check for uppercase letters
+                passwordError.textContent = "Password must contain at least one uppercase letter.";
+                isValid = false;
+            } else if (!hasLowerCase.test(password)) {  // Check for lowercase letters
+                passwordError.textContent = "Password must contain at least one lowercase letter.";
+                isValid = false;
+            } else if (!hasDigit.test(password)) {  // Check for digits
+                passwordError.textContent = "Password must contain at least one digit.";
+                isValid = false;
+            } else if (!hasSpecialChar.test(password)) {    // Check for special characters
+                passwordError.textContent = "Password must contain at least one special character.";
+                isValid = false;
+            }
+
+            // confirmPassword validation
+            if (password !== confirmPassword) { // Check if passwords match
+                confirmPasswordError.textContent = "Passwords do not match.";
+                isValid = false;
+            }
+
+            if (isValid) {  // If all validations pass
+                successMessage.textContent = "Registration successful!";
+            }
+
+            return isValid;
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form name="registrationForm" class="registrationForm">
+        <h1>Form Validation with JavaScript</h1>
+        <div>
+            <label for="username"><b>Username:</b></label><br>
+            <input type="text" id="username" name="username" placeholder="Enter username ..." required><br>
+            <span id="usernameError" class="error-message"></span><br>
+        </div>
+        
+        <div>
+            <label for="email"><b>Email:</b></label><br>
+            <input type="email" id="email" name="email" placeholder="Enter email address ..." required><br>
+            <span id="emailError" class="error-message"></span><br>
+        </div>
+
+        <div>
+            <label for="password"><b>Password:</b></label><br>
+            <input type="password" id="password" name="password" placeholder="Enter password ..." required><br>
+            <span id="passwordError" class="error-message"></span><br>
+        </div>
+
+        <div>
+            <label for="confirmPassword"><b>Confirm Password:</b></label><br>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password ..." required><br>
+            <span id="confirmPasswordError" class="error-message"></span><br>
+        </div>
+
+        <input type="button" value="Register" class="submitButton" onclick="validateForm()"><br><br>
+        <span id="successMessage" class="success-message"></span>
+    </form><br>
+    <footer>
+        <p><b><i>JaberAlJ</i></b></p>
+    </footer>
+</body>
+</html>
